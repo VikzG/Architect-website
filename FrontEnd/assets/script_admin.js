@@ -235,44 +235,10 @@ async function modalPrevious() {
 const targetPrevious = document.querySelector(".modal-previous");
 targetPrevious.addEventListener("click", modalPrevious);
 
-/* Fonction pour poster un des travaux */
-//async function createWork(imageForm, titleForm, categoryForm) {
-//  const token = localStorage.getItem("jwtToken");
-//  await fetch("http://localhost:5678/api/works", {
-//    method: "POST",
-//    headers: {
-//      Authorization: `Bearer ${token}`,
-//      "Content-Type": "multipart/form-data",
-//    },
-    //body: new FormData(document.querySelector('#my-form')),
-  //  body: JSON.stringify({
-  //    image: imageForm,
-  //    title: titleForm,
-  //    category: categoryForm
-  //  }),
- // })
-  //  .then((response) => {
-  //    if (!response.ok) {
-  //      throw new Error("Network error");
-  //    }
-  //    return response.json();
-  //  })
-  //  .then((data) => {
-  //    console.log(data);
-  //  })
-  //  .catch((error) => {
-  //    console.error("problem with the fetch operation:", error);
-  //  });
-//}
-
-//const newWork = document.querySelector('.valid-photo');
-//newWork.addEventListener('click',createWork);
-
-
 async function createWork() {
   const token = localStorage.getItem("jwtToken");
   const formData = new FormData();
-  const imageForm = document.getElementById("image").files;
+  const imageForm = document.getElementById("image").files[0];
   const titleForm = document.getElementById("title").value;
   const categoryForm = document.getElementById("category").value;
   formData.append("image", imageForm);
@@ -282,7 +248,6 @@ async function createWork() {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
     },
     body: formData
   })
@@ -306,16 +271,6 @@ document.getElementById("my-form").addEventListener("submit", function (event) {
   event.preventDefault();
   createWork();
 });
-
-
-//document.getElementById("my-form").addEventListener("submit", function (event) {
-//  event.preventDefault();
-//  const imageForm = document.getElementById("image").value;
-//  console.log(imageForm);
-//  const titleForm = document.getElementById("title").value;
-//  const categoryForm = document.getElementById("category").value;
-//  createWork(imageForm, titleForm, categoryForm);
-//});
 
 /* afficher l'image sélectionnée */
 const uploadedImageDiv = document.querySelector("#uploadedimage");
