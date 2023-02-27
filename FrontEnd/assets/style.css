@@ -367,10 +367,12 @@ header{
 
 .img-load-container{
 	display: flex;
+	width: 390px;
 	flex-wrap: wrap;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: flex-start;
+	align-self: center;
 	gap: 25px;
 }
 
@@ -397,6 +399,10 @@ header{
 }
 	.img-load-container button:hover {
 	cursor: pointer;
+}
+
+.js-modal{
+	text-decoration: none;
 }
 
 .js-modal-close{
@@ -484,7 +490,7 @@ header{
 	background-color: white;
 }
 
-.valid-photo{
+#valid-photo{
 	width: 237px;
 	height: 36px;
 	background: #A7A7A7;

@@ -153,8 +153,9 @@ async function modalLoad() {
       ".deleted-work"
     ); /* je selectionne touts mes boutons */
   deleteButtons.forEach((button) => {
-    button.addEventListener("click", async function () {
+    button.addEventListener("click", async function (e) {
       /* pour chaque bouton je créer un évenement click */
+      e.preventDefault();
       let workId =
         button.dataset
           .id; /* je créer ma variable qui récupère l'ID de chaque image qui est stockée dans le dataset du bouton */
@@ -214,8 +215,8 @@ async function creatingWork() {
   deleteGallery.style.display = "none";
   workForm.style.display = "flex";
 }
-const targetAddWork = document.querySelector(".add-photo");
-targetAddWork.addEventListener("click", creatingWork);
+  const targetAddWork = document.querySelector(".add-photo");
+  targetAddWork.addEventListener("click", creatingWork);
 
 /* fleche precedent */
 async function modalPrevious() {
@@ -225,6 +226,7 @@ async function modalPrevious() {
   const workForm = document.querySelector("#my-form");
   const titleModal = document.querySelector("#titlemodal");
   const contentBottom = document.querySelector(".bottom-content");
+  
   contentBottom.style.display = "flex";
   previousModal.style.display = "none";
   loadContainer.style.display = "flex";
@@ -235,6 +237,7 @@ async function modalPrevious() {
 const targetPrevious = document.querySelector(".modal-previous");
 targetPrevious.addEventListener("click", modalPrevious);
 
+/* Fonction pour envoyer un travail */
 async function createWork() {
   const token = localStorage.getItem("jwtToken");
   const formData = new FormData();
@@ -252,7 +255,6 @@ async function createWork() {
     body: formData
   })
     .then((response) => {
-      console.log('toto');
       console.log(response);
       if (!response.ok) {
         throw new Error("Network error");
@@ -275,7 +277,7 @@ document.getElementById("my-form").addEventListener("submit", function (event) {
 /* afficher l'image sélectionnée */
 const uploadedImageDiv = document.querySelector("#uploadedimage");
 const fileUpload = document.querySelector("#image");
-const sendWork = document.querySelector(".valid-photo");
+const sendWork = document.querySelector("#valid-photo");
 const hiddenContent = document.querySelector(".hide-content");
 const hiddenTxt = document.querySelector(".image-text");
 const hiddenFormat = document.querySelector(".image-format");
