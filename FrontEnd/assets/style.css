@@ -229,6 +229,11 @@ footer nav ul {
 	color: black;
 }
 
+#btn-link-logout{
+	text-decoration: none;
+	color: black;
+}
+
 #top-container{
 	position: absolute;
 	width: 100vw;

@@ -168,7 +168,7 @@ async function modalLoad() {
         },
       });
     });
-  });
+  }); 
 }
 
 async function importWorks() {
@@ -298,4 +298,40 @@ function getImage(e) {
   uploadedImageDiv.style.width = "130px";
   uploadedImageDiv.style.height = "169px";
   uploadedImageDiv.appendChild(newImg);
+}
+
+function logout() {
+  localStorage.removeItem("jwtToken");
+}
+targetLogout = document.querySelector("#btn-link-logout");
+targetLogout.addEventListener("click", logout);
+
+/* Erreur formulaire boite modale */
+const form = document.getElementById('my-form');
+const imageField = form.elements['image'];
+const titleField = form.elements['title'];
+const submitButton = document.getElementById('valid-photo');
+
+submitButton.addEventListener('click', function(event) {
+  event.preventDefault(); // Empêche l'envoi du formulaire si la vérification échoue
+  if (imageField.value === '' || titleField.value === '') {
+    alert('Veuillez compléter le formulaire');
+  } else {
+    form.submit(); // Soumet le formulaire si tout est ok
+  }
+});
+
+/* Vérifie si l'utilisateur a un token dans le local storage*/
+function checkAccess() {
+  const token = localStorage.getItem("jwtToken");
+  if (!token) {
+    // Si le token n'est pas présent, redirige l'utilisateur vers une page d'erreur ou de connexion
+    window.location.href = 'index.html';
+    alert("Vous n'avez pas accès à la page d'administration");
+  }
+}
+
+// Vérifie l'accès à l'index_admin lors du chargement de la page
+if (window.location.href.endsWith('index_admin.html')) {
+  checkAccess();
 }
