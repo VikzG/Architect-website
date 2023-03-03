@@ -296,7 +296,6 @@ async function createWork() {
   const titleForm = document.getElementById("title").value;
   const categoryForm = document.getElementById("category").value;
 
-  // Vérifier que les champs du formulaire sont remplis
   if (!imageForm || !titleForm || !categoryForm) {
     alert("Veuillez remplir tous les champs du formulaire.");
     return;
@@ -383,3 +382,18 @@ function checkAccess() {
 if (window.location.href.endsWith('index_admin.html')) {
   checkAccess();
 }
+
+/* Active des boutons de catégories */
+const buttons = document.querySelectorAll('.btn-projets');
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    button.classList.add('active');
+    
+    buttons.forEach(otherButton => {
+      if (otherButton !== button) {
+        otherButton.classList.remove('active');
+      }
+    });
+  });
+});

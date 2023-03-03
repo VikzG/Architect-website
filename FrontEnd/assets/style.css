@@ -216,6 +216,12 @@ footer nav ul {
 		cursor:pointer
 	}
 
+	.btn-projets.active {
+		background-color: #1D6154;
+		color:white;
+		cursor:pointer
+	}
+
 #password-reset {
 	text-decoration: underline black;
 }

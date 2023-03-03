@@ -101,5 +101,18 @@ importImages(); /* On déclare la fonction */
       }
     })
 
+/* Active des boutons de catégories */
+const buttons = document.querySelectorAll('.btn-projets');
 
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    button.classList.add('active');
+    
+    buttons.forEach(otherButton => {
+      if (otherButton !== button) {
+        otherButton.classList.remove('active');
+      }
+    });
+  });
+});
 
