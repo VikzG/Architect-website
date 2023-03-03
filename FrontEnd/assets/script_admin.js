@@ -86,6 +86,10 @@ const closeModal = function (e) {
   const workForm = document.querySelector("#my-form");
   const titleModal = document.querySelector("#titlemodal");
   const contentBottom = document.querySelector(".bottom-content");
+  const uploadedImg = document.querySelector("#uploadedimage");
+  uploadedImg.innerHTML = "";
+  uploadedImg.style.width = "0px";
+  uploadedImg.style.height = "0px";
   contentBottom.style.display = "flex";
   previousModal.style.display = "none";
   loadContainer.style.display = "flex";
@@ -129,10 +133,13 @@ async function modalLoad() {
 
   const targetWrapper = document.querySelector(".img-load-container");
 
+  targetWrapper.innerHTML = "";
+
   for (const image of data) {
     /*Déclaration de ma boucle*/
 
     const div = document.createElement("div");
+    div.classList.add("work-item"); // Ajouter une classe de référence au div parent
     const img = document.createElement("img"); /*Création d'une image*/
     const title = document.createElement("p");
     const trashButton = document.createElement("button");
@@ -167,6 +174,8 @@ async function modalLoad() {
           Authorization: `Bearer ${token}`,
         },
       });
+      const deletedWorkDiv = button.closest(".work-item");
+      deletedWorkDiv.remove(); // Supprimer le div parent de l'image supprimée
     });
   }); 
 }
@@ -208,6 +217,13 @@ async function creatingWork() {
   const workForm = document.querySelector("#my-form");
   const titleModal = document.querySelector("#titlemodal");
   const contentBottom = document.querySelector(".bottom-content");
+  const hiddenContent = document.querySelector(".hide-content");
+  const hiddenTxt = document.querySelector(".image-text");
+  const hiddenFormat = document.querySelector(".image-format");
+
+  hiddenContent.style.display = "flex";
+  hiddenTxt.style.display = "flex";
+  hiddenFormat.style.display = "flex";
   contentBottom.style.display = "none";
   previousModal.style.display = "block";
   loadContainer.style.display = "none";
@@ -226,27 +242,71 @@ async function modalPrevious() {
   const workForm = document.querySelector("#my-form");
   const titleModal = document.querySelector("#titlemodal");
   const contentBottom = document.querySelector(".bottom-content");
+  const uploadedImg = document.querySelector("#uploadedimage");
   
   contentBottom.style.display = "flex";
   previousModal.style.display = "none";
   loadContainer.style.display = "flex";
   titleModal.innerHTML = "Galerie photo";
   deleteGallery.style.display = "block";
+  uploadedImg.innerHTML = "";
+  uploadedImg.style.width = "0px";
+  uploadedImg.style.height = "0px";
   workForm.style.display = "none";
+  workForm.reset();
 }
 const targetPrevious = document.querySelector(".modal-previous");
 targetPrevious.addEventListener("click", modalPrevious);
 
 /* Fonction pour envoyer un travail */
+//async function createWork() {
+//  const token = localStorage.getItem("jwtToken");
+//  const formData = new FormData();
+//  const imageForm = document.getElementById("image").files[0];
+//  const titleForm = document.getElementById("title").value;
+//  const categoryForm = document.getElementById("category").value;
+//  formData.append("image", imageForm);
+//  formData.append("title", titleForm);
+//  formData.append("category", categoryForm);
+//  await fetch("http://localhost:5678/api/works", {
+//    method: "POST",
+//    headers: {
+//      Authorization: `Bearer ${token}`,
+//    },
+//    body: formData
+//  })
+//    .then((response) => {
+//      console.log(response);
+//      if (!response.ok) {
+//        throw new Error("Network error");
+//      }
+//      return response.json();
+//    })
+//    .then((data) => {
+//      console.log(data);
+//      modalLoad();
+//    })
+//    .catch((error) => {
+//      console.error("problem with the fetch operation:", error);
+//    });
+//}
 async function createWork() {
   const token = localStorage.getItem("jwtToken");
-  const formData = new FormData();
   const imageForm = document.getElementById("image").files[0];
   const titleForm = document.getElementById("title").value;
   const categoryForm = document.getElementById("category").value;
+
+  // Vérifier que les champs du formulaire sont remplis
+  if (!imageForm || !titleForm || !categoryForm) {
+    alert("Veuillez remplir tous les champs du formulaire.");
+    return;
+  }
+
+  const formData = new FormData();
   formData.append("image", imageForm);
   formData.append("title", titleForm);
   formData.append("category", categoryForm);
+
   await fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
@@ -263,16 +323,19 @@ async function createWork() {
     })
     .then((data) => {
       console.log(data);
+      modalLoad();
     })
     .catch((error) => {
       console.error("problem with the fetch operation:", error);
     });
 }
 
+
 document.getElementById("my-form").addEventListener("submit", function (event) {
   event.preventDefault();
   createWork();
 });
+
 
 /* afficher l'image sélectionnée */
 const uploadedImageDiv = document.querySelector("#uploadedimage");
@@ -305,21 +368,6 @@ function logout() {
 }
 targetLogout = document.querySelector("#btn-link-logout");
 targetLogout.addEventListener("click", logout);
-
-/* Erreur formulaire boite modale */
-const form = document.getElementById('my-form');
-const imageField = form.elements['image'];
-const titleField = form.elements['title'];
-const submitButton = document.getElementById('valid-photo');
-
-submitButton.addEventListener('click', function(event) {
-  event.preventDefault(); // Empêche l'envoi du formulaire si la vérification échoue
-  if (imageField.value === '' || titleField.value === '') {
-    alert('Veuillez compléter le formulaire');
-  } else {
-    form.submit(); // Soumet le formulaire si tout est ok
-  }
-});
 
 /* Vérifie si l'utilisateur a un token dans le local storage*/
 function checkAccess() {
