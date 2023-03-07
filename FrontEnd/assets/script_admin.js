@@ -32,8 +32,7 @@ const boutonFilterHotels =
   ); /*Selection du bouton hotels et restaurants*/
 
 boutonFilterTous.addEventListener("click", async function () {
-  /* Ajout de l'évenement click*/ const gallery =
-    document.querySelector(".gallery"); /* Selection de la galerie*/
+  const gallery = document.querySelector(".gallery"); /* Selection de la galerie*/
   gallery.innerHTML = ""; /* Suppression du contenu de la galerie */
   importImages(); /* Renvoi de ma fonction qui importe les travaux */
 });
@@ -192,7 +191,7 @@ async function getFilterCategory(category) {
   const gallery = document.querySelector(".gallery");
   gallery.innerHTML = "";
   const data = await importWorks();
-  let result = data.filter((item) => item.category.name === category);
+  let result = data.filter((item) => item.category.name === category); 
 
   for (const image of result) {
     /*Déclaration de ma boucle*/
@@ -258,38 +257,6 @@ async function modalPrevious() {
 const targetPrevious = document.querySelector(".modal-previous");
 targetPrevious.addEventListener("click", modalPrevious);
 
-/* Fonction pour envoyer un travail */
-//async function createWork() {
-//  const token = localStorage.getItem("jwtToken");
-//  const formData = new FormData();
-//  const imageForm = document.getElementById("image").files[0];
-//  const titleForm = document.getElementById("title").value;
-//  const categoryForm = document.getElementById("category").value;
-//  formData.append("image", imageForm);
-//  formData.append("title", titleForm);
-//  formData.append("category", categoryForm);
-//  await fetch("http://localhost:5678/api/works", {
-//    method: "POST",
-//    headers: {
-//      Authorization: `Bearer ${token}`,
-//    },
-//    body: formData
-//  })
-//    .then((response) => {
-//      console.log(response);
-//      if (!response.ok) {
-//        throw new Error("Network error");
-//      }
-//      return response.json();
-//    })
-//    .then((data) => {
-//      console.log(data);
-//      modalLoad();
-//    })
-//    .catch((error) => {
-//      console.error("problem with the fetch operation:", error);
-//    });
-//}
 async function createWork() {
   const token = localStorage.getItem("jwtToken");
   const imageForm = document.getElementById("image").files[0];
@@ -323,6 +290,7 @@ async function createWork() {
     .then((data) => {
       console.log(data);
       modalLoad();
+      modalPrevious()
     })
     .catch((error) => {
       console.error("problem with the fetch operation:", error);
